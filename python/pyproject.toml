@@ -1,0 +1,33 @@
+[project]
+name = "monad-scoring-protocol"
+version = "0.1.0"
+description = "链上项目评分协议 - Python 数据分析模块"
+requires-python = ">=3.10"
+dependencies = [
+    "web3>=6.11.3",
+    "requests>=2.31.0",
+    "pandas>=2.1.4",
+    "python-dotenv>=1.0.0",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+include = '\.pyi?$'
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --cov=src --cov-report=html --cov-report=term"
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*", "*/__init__.py"]

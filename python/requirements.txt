@@ -1,0 +1,29 @@
+# Web3 和区块链交互
+web3==6.11.3
+
+# HTTP 请求
+requests==2.31.0
+
+# 数据处理
+pandas==2.1.4
+numpy==1.26.2
+
+# 环境变量管理
+python-dotenv==1.0.0
+
+# 日志
+loguru==0.7.2
+
+# 测试
+pytest==7.4.3
+pytest-cov==4.1.0
+
+# 代码质量
+black==23.12.1
+flake8==7.0.0
+
+# 工具
+tqdm==4.66.1
+
+
+

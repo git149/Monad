@@ -1,0 +1,56 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+lib/
+
+# Build artifacts
+dist/
+build/
+out/
+artifacts/
+cache/
+coverage/
+coverage.json
+typechain/
+broadcast/
+gas-snapshot
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Local deployment addresses
+deployments/latest.env
+deployments/*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+python/venv/
+python/.venv/
+python/env/
+python/ENV/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+python/data/*.json
+python/data/*.csv

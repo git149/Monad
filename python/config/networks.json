@@ -1,0 +1,43 @@
+{
+  "networks": {
+    "monad_testnet": {
+      "name": "Monad Testnet",
+      "chainId": 41454,
+      "rpc": "https://monad-testnet.blockpi.network/v1/rpc/44f7274da9587fad152a5d25d21ac5461f4af6cb",
+      "explorer": "https://explorer.testnet.monad.xyz",
+      "nativeCurrency": {
+        "name": "Monad",
+        "symbol": "MONAD",
+        "decimals": 18
+      }
+    },
+    "bsc_testnet": {
+      "name": "BSC Testnet",
+      "chainId": 97,
+      "rpc": "https://data-seed-prebsc-1-s1.binance.org:8545/",
+      "explorer": "https://testnet.bscscan.com",
+      "nativeCurrency": {
+        "name": "BNB",
+        "symbol": "tBNB",
+        "decimals": 18
+      }
+    }
+  },
+  "scoring": {
+    "weights": {
+      "unique_eoa": 40,
+      "holder_concentration": 30,
+      "contract_permissions": 30
+    },
+    "thresholds": {
+      "healthy_min": 80,
+      "risky_min": 60,
+      "dangerous_max": 40
+    }
+  },
+  "analysis": {
+    "top_holders_count": 10,
+    "min_transactions": 100,
+    "cache_ttl_hours": 24
+  }
+}
