@@ -26,6 +26,7 @@ class Web3Client:
         if not rpc_url:
             env_key_map = {
                 "monad_testnet": "MONAD_TESTNET_RPC_URL",
+                "monad_mainnet": "MONAD_MAINNET_RPC_URL",
                 "bsc_testnet": "BSC_TESTNET_RPC_URL",
                 "bsc_mainnet": "BSC_MAINNET_RPC_URL",
             }
@@ -71,6 +72,10 @@ class Web3Client:
     def get_block_number(self) -> int:
         """获取当前区块高度"""
         return self.w3.eth.block_number
+
+    def get_latest_block(self) -> int:
+        """获取最新区块高度（别名方法）"""
+        return self.get_block_number()
 
     def get_transaction_count(self, address: str) -> int:
         """
