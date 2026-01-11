@@ -22,6 +22,7 @@ coverage.json
 typechain/
 broadcast/
 gas-snapshot
+/docs
 
 # Logs
 npm-debug.log*

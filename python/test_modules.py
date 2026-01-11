@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 from blockchain.web3_client import Web3Client
 from blockchain.contract_reader import ContractReader
 from scoring.unique_eoa import UniqueEOAAnalyzer
+from scoring.holder_analysis import HolderAnalyzer
 from utils.simple_db import SimpleDB
 
 
@@ -175,9 +176,54 @@ def test_unique_eoa_analyzer(client: Web3Client, token_address: str):
         return None
 
 
+def test_holder_analyzer(client: Web3Client, token_address: str):
+    """测试持有者集中度分析器"""
+    print_section("4. 测试持有者集中度分析器")
+
+    try:
+        analyzer = HolderAnalyzer(client)
+        print(f"✅ 持有者分析器初始化成功")
+
+        # 分析最近5000个区块(避免USDC全量扫描太慢)
+        current_block = client.get_latest_block()
+        blocks_to_analyze = 5000
+        from_block = max(0, current_block - blocks_to_analyze)
+
+        print(f"\n分析区块范围: {from_block} -> {current_block}")
+        print(f"区块数量: {blocks_to_analyze}")
+        print(f"⚠️  注意: 这可能需要1-3分钟,请耐心等待...")
+
+        result = analyzer.analyze_holder_concentration(
+            token_address=token_address, from_block=from_block, to_block=current_block
+        )
+
+        print(f"\n分析结果:")
+        print(f"   总持有者数: {result['total_holders']}")
+        print(f"   总供应量: {result['total_supply']:,}")
+        print(f"   Top10占比: {result['top10_percentage']:.2f}%")
+        print(f"   评分: {result['score']:.2f}/30")
+        print(f"   风险等级: {result['risk_level']}")
+
+        if len(result["top10_holders"]) > 0:
+            print(f"\nTop 5 持有者:")
+            for i, (addr, balance, pct) in enumerate(result["top10_holders"][:5], 1):
+                print(f"   {i}. {addr[:20]}... - {pct:.2f}% ({balance:,})")
+        else:
+            print(f"\n⚠️  未找到持有者数据")
+
+        return result
+
+    except Exception as e:
+        print(f"❌ 持有者分析器测试失败: {e}")
+        import traceback
+
+        traceback.print_exc()
+        return None
+
+
 def test_database():
     """测试数据库缓存"""
-    print_section("4. 测试数据库缓存")
+    print_section("5. 测试数据库缓存")
 
     try:
         db = SimpleDB()
@@ -251,6 +297,7 @@ def main():
     if token_address:
         test_contract_reader(client, token_address)
         test_unique_eoa_analyzer(client, token_address)
+        test_holder_analyzer(client, token_address)
     else:
         print("\n⚠️  跳过合约相关测试（未设置 TEST_TOKEN_ADDRESS）")
 
@@ -264,9 +311,9 @@ def main():
     print("  [✅] blockchain/web3_client.py - Web3 连接管理")
     print("  [✅] blockchain/contract_reader.py - ERC20 合约读取")
     print("  [✅] scoring/unique_eoa.py - 独立 EOA 分析 (40分)")
+    print("  [✅] scoring/holder_analysis.py - 持有者集中度分析 (30分)")
     print("  [✅] utils/simple_db.py - SQLite 缓存")
     print("\n待开发模块:")
-    print("  [ ] scoring/holder_analysis.py - 持有者集中度分析 (30分)")
     print("  [ ] scoring/permission_checker.py - 合约权限检测 (30分)")
     print("  [ ] scoring/score_calculator.py - 综合评分计算器")
 
